@@ -25,16 +25,25 @@ playground.onkey(player1.turn_left, "Left")
 playground.onkey(player1.turn_up, "Up")
 playground.onkey(player1.turn_down, "Down")
 
-while True:
+game_on = True
+while game_on:
     playground.update()
-    time.sleep(0.2)
+    time.sleep(0.1)
     player1.move()
 
-
-    #Detect food collsion
-    if player1.head.distance(food) < 10:
+    #Detect food collision
+    if player1.head.distance(food) < 15:
         food.random_refresh()
         game_score.increase_score()
+        player1.grow_snake()
 
-playground.exitonclick()
+    # End game if wall collision is detected
+    game_on = player1.detect_collision()
+    
+    if player1.tail_collsion() == False:
+        break
+    
+
+game_score.gameover()
+
 playground.mainloop()

@@ -11,10 +11,9 @@ class Snake_Module:
     def __init__(self):
         self.serpent = []
         self.cordinates = [(0,0), (-20, 0), (-40, 0), (-60, 0)]
-        self.colors = ["red", "yellow", "green", "white"]
-        self.color_index = 0 
         self.create_snake()
         self.head = self.serpent[0]
+        self.head.color("red")
       
     def move(self):
         for seg in range(len(self.serpent) - 1, 0, -1):
@@ -30,13 +29,30 @@ class Snake_Module:
             Create snake body
            """
         for pos in self.cordinates:
-            snake_seg = Turtle(shape="square")
-            snake_seg.color(self.colors[self.color_index])
-            self.color_index += 1
-            snake_seg.penup()
-            snake_seg.goto(pos)
-            self.serpent.append(snake_seg)
-    
+            # snake_seg = Turtle(shape="square")
+            # snake_seg.color("white")
+            # snake_seg.penup()
+            # snake_seg.goto(pos)
+            # self.serpent.append(snake_seg)
+            self._add_segment(pos)
+
+    def _add_segment(self, pos):
+        """ 
+         Add new segment 
+           """
+
+        snake_seg = Turtle(shape="square")
+        snake_seg.color("white")
+        snake_seg.penup()
+        snake_seg.goto(pos)
+        self.serpent.append(snake_seg)
+
+    def grow_snake(self):
+        """ Grow snake length """
+        print(self.serpent[-1].position())
+        self._add_segment(self.serpent[-1].position())
+        
+
     def turn_right(self):
         """ 
          Turn snake right if snake is not heading left
@@ -64,3 +80,26 @@ class Snake_Module:
            """
         if self.head.heading() != self.UP:
             self.head.setheading(270)
+    
+    def detect_collision(self):
+        """ 
+        Detect if snake head has contact with gamee wall 
+         """
+        if self.head.xcor() > 280 or self.head.xcor() < -280 or self.head.ycor() > 250 or self.head.ycor() < -250:
+            return False
+        else:
+            return True
+    
+    def tail_collsion(self):
+        """ 
+            Detect collision with wall 
+         """
+        
+        for seg in self.serpent:
+            if seg == self.head:
+                pass
+            elif self.head.distance(seg) < 10:
+                print(self.head.distance(seg))
+                return False
+            else:
+                return True
