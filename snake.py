@@ -42,14 +42,14 @@ class Snake_Module:
            """
 
         snake_seg = Turtle(shape="square")
-        snake_seg.color("white")
+        snake_seg.color("lightgreen")
         snake_seg.penup()
         snake_seg.goto(pos)
         self.serpent.append(snake_seg)
 
     def grow_snake(self):
         """ Grow snake length """
-        print(self.serpent[-1].position())
+        # print(self.serpent[-1].position())
         self._add_segment(self.serpent[-1].position())
         
 
@@ -86,20 +86,27 @@ class Snake_Module:
         Detect if snake head has contact with gamee wall 
          """
         if self.head.xcor() > 280 or self.head.xcor() < -280 or self.head.ycor() > 250 or self.head.ycor() < -250:
-            return False
-        else:
             return True
+        else:
+            return False
     
     def tail_collsion(self):
         """ 
             Detect collision with wall 
          """
-        
-        for seg in self.serpent:
-            if seg == self.head:
-                pass
-            elif self.head.distance(seg) < 10:
+        for seg in self.serpent[1:]:
+            if self.head.distance(seg) < 9:
                 print(self.head.distance(seg))
-                return False
-            else:
                 return True
+            else:
+                return False
+            
+    def reset_snake(self):
+        for seg in self.serpent:
+            seg.goto(1000, -1000)
+        self.serpent.clear()
+        self.create_snake()
+        self.head = self.serpent[0]
+        self.head.color("red")
+    
+    
