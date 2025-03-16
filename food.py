@@ -15,7 +15,6 @@ class Snake_food(Turtle):
     def random_refresh(self):
         x_random = randint(-280, 280)
         y_random = randint(-230, 230)
-
         self.goto(x_random, y_random)
 
         
